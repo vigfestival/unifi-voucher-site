@@ -1,3 +1,5 @@
+This is a fork of https://github.com/glenndehaan/unifi-voucher-site using the latest unifi package to be compatible with later unifi network controllers.
+
 # UniFi Voucher Site
 
 A small UniFi Voucher Site for simple voucher creation
