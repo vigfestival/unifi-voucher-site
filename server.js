@@ -82,7 +82,7 @@ app.get('/', (req, res) => {
         sid: uuidv4(),
         timeConvert: time,
         voucher_types: voucherTypes,
-        checkPassword: process.env.USE_SECURITY_CHECK === undefined || process.env.USE_SECURITY_CHECK.toUpperCase() === 'TRUE'
+        checkPassword: !process.env.USE_SECURITY_CHECK || process.env.USE_SECURITY_CHECK.toUpperCase() === 'TRUE'
     });
 });
 app.post('/', async (req, res) => {
@@ -91,10 +91,13 @@ app.post('/', async (req, res) => {
         return;
     }
 
+    let password = req.body.password;
+    let passwordCheck = password === (process.env.SECURITY_CODE || "0000");
+
     if (process.env.USE_SECURITY_CHECK !== undefined && process.env.USE_SECURITY_CHECK.toUpperCase() === 'FALSE') {
-        req.body.password = '0000';
+        passwordCheck = true;
+        password = '0000';
     }
-    const passwordCheck = req.body.password === (process.env.SECURITY_CODE || "0000");
 
     if(!passwordCheck) {
         res.redirect(encodeURI(`/?error=Invalid password!`));
@@ -108,7 +111,7 @@ app.post('/', async (req, res) => {
         return;
     }
 
-    res.redirect(encodeURI(`/voucher?code=${req.body.password}&type=${req.body['voucher-type']}`));
+    res.redirect(encodeURI(`/voucher?code=${password}&type=${req.body['voucher-type']}`));
 });
 app.get('/voucher', async (req, res) => {
     if(req.query.code !== (process.env.SECURITY_CODE || "0000")) {
