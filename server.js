@@ -81,7 +81,8 @@ app.get('/', (req, res) => {
         app_header: timeHeader,
         sid: uuidv4(),
         timeConvert: time,
-        voucher_types: voucherTypes
+        voucher_types: voucherTypes,
+        checkPassword: process.env.USE_SECURITY_CHECK === undefined || process.env.USE_SECURITY_CHECK.toUpperCase() === 'TRUE'
     });
 });
 app.post('/', async (req, res) => {
@@ -90,6 +91,9 @@ app.post('/', async (req, res) => {
         return;
     }
 
+    if (process.env.USE_SECURITY_CHECK !== undefined && process.env.USE_SECURITY_CHECK.toUpperCase() === 'FALSE') {
+        req.body.password = '0000';
+    }
     const passwordCheck = req.body.password === (process.env.SECURITY_CODE || "0000");
 
     if(!passwordCheck) {
