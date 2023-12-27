@@ -94,7 +94,7 @@ app.post('/', async (req, res) => {
     let password = req.body.password;
     let passwordCheck = password === (process.env.SECURITY_CODE || "0000");
 
-    if (process.env.USE_SECURITY_CHECK !== undefined && process.env.USE_SECURITY_CHECK.toUpperCase() === 'FALSE') {
+    if (process.env.USE_SECURITY_CHECK && process.env.USE_SECURITY_CHECK.toUpperCase() === 'FALSE') {
         passwordCheck = true;
         password = '0000';
     }
