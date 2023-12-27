@@ -72,15 +72,17 @@
                     </form>
                 </div>
 
+                <% if (showFooter === true) { %>
                 <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
                     <p>
-                        Powered by: <a href="https://glenndehaan.com" class="underline font-semibold">Glenn de Haan</a>.<br/>
-                        Want your own portal? Checkout the project on: <a href="https://github.com/glenndehaan/unifi-voucher-site" class="underline font-semibold">GitHub</a>
+                        Powered by: McTristan, with ideas and work of <a href="https://glenndehaan.com" class="underline font-semibold">Glenn de Haan</a>.<br/>
+                        Want your own portal? Checkout the project on: <a href="https://github.com/mctristan/unifi-voucher-site" class="underline font-semibold">GitHub</a> (fork of: <a href="https://github.com/glenndehaan/unifi-voucher-site" class="underline font-semibold">GitHub</a>)
                     </p>
                     <p class="text-[10px] not-italic">
                         SID: <%= sid %>, CheckPassword: <% checkPassword %>
                     </p>
                 </div>
+                <% } %>
             </div>
 
             <div class="w-1/2 shadow-2xl">

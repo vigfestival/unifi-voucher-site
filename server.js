@@ -82,7 +82,8 @@ app.get('/', (req, res) => {
         sid: uuidv4(),
         timeConvert: time,
         voucher_types: voucherTypes,
-        checkPassword: !process.env.USE_SECURITY_CHECK || process.env.USE_SECURITY_CHECK.toUpperCase() === 'TRUE'
+        checkPassword: !process.env.USE_SECURITY_CHECK || process.env.USE_SECURITY_CHECK.toUpperCase() === 'TRUE',
+        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
     });
 });
 app.post('/', async (req, res) => {
@@ -136,7 +137,8 @@ app.get('/voucher', async (req, res) => {
         code: req.query.code,
         type: req.query.type,
         voucher_code: voucherCode,
-        sid: uuidv4()
+        sid: uuidv4(),
+        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
     });
 });
 
