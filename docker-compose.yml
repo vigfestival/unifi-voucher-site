@@ -13,4 +13,5 @@ services:
       SECURITY_CODE: '0000'
       USE_SECURITY_CHECK: 'true'
       SHOW_FOOTER: 'true'
+      SHOW_EXISTING_VOUCHERS: 'true'
       VOUCHER_TYPES: '480,0,,,;'

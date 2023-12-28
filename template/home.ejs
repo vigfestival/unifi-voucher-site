@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Login | UniFi Voucher</title>
+        <title>UniFi Voucher</title>
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
@@ -71,6 +71,14 @@
                         <input type="submit" value="Create Voucher" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
                     </form>
                 </div>
+
+                <% if (showExistingVouchers === true) { %>
+                <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
+                    <p>
+                        <a href="/vouchers" class="underline font-semibold">Existing vouchers</a>
+                    </p>
+                </div>
+                <% } %>
 
                 <% if (showFooter === true) { %>
                 <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">

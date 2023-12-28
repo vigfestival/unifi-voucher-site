@@ -83,7 +83,8 @@ app.get('/', (req, res) => {
         timeConvert: time,
         voucher_types: voucherTypes,
         checkPassword: !process.env.USE_SECURITY_CHECK || process.env.USE_SECURITY_CHECK.toUpperCase() === 'TRUE',
-        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
+        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE',
+        showExistingVouchers: !process.env.SHOW_EXISTING_VOUCHERS || process.env.SHOW_EXISTING_VOUCHERS.toUpperCase() === 'TRUE'
     });
 });
 app.post('/', async (req, res) => {
@@ -137,6 +138,21 @@ app.get('/voucher', async (req, res) => {
         code: req.query.code,
         type: req.query.type,
         voucher_code: voucherCode,
+        sid: uuidv4(),
+        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
+    });
+});
+app.get('/vouchers', async (req, res) => {
+    const vouchers = await unifi.getExistingVouchers();
+
+    res.render('existing_vouchers', {
+        error: typeof req.query.error === 'string' && req.query.error !== '',
+        error_text: req.query.error || '',
+        banner_image: process.env.BANNER_IMAGE || `/images/bg-${random(1, 10)}.jpg`,
+        app_header: 'Existing vouchers',
+        code: req.query.code,
+        type: req.query.type,
+        vouchers: vouchers,
         sid: uuidv4(),
         showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
     });

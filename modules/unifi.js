@@ -62,3 +62,48 @@ module.exports.createVoucher = (type) => {
         });
     });
 };
+
+/**
+ * Exports the UniFi voucher function
+ *
+ * @returns {Promise<unknown>}
+ */
+module.exports.getExistingVouchers = () => {
+    return new Promise((resolve) => {
+        /**
+         * Create new UniFi controller object
+         *
+         * @type {Controller}
+         */
+        const controller = new unifi.Controller({host: config.unifi.ip, port: config.unifi.port, site: config.unifi.siteID, sslverify: false});
+
+        /**
+         * Login and gets all existing vouchers
+         */
+        controller.login(config.unifi.username, config.unifi.password).then(() => {
+            controller.getSitesStats().then(() => {
+                controller.getVouchers().then((voucher_data_complete) => {
+                    let vouchers = {};
+                    voucher_data_complete.forEach(function(voucher) {
+                        vouchers.push({
+                            code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`
+                        });
+                    });
+                    resolve(vouchers);
+                }).catch((e) => {
+                    console.log('Error while getting vouchers!');
+                    console.log(e);
+                    process.exit(1);
+                });
+            }).catch((e) => {
+                console.log('Error while getting site stats!');
+                console.log(e);
+                process.exit(1);
+            });
+        }).catch((e) => {
+            console.log('Error while logging in!');
+            console.log(e);
+            process.exit(1);
+        });
+    });
+};
