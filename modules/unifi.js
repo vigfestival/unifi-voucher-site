@@ -22,7 +22,7 @@ const config = {
  * @param type
  * @returns {Promise<unknown>}
  */
-module.exports = (type) => {
+module.exports.createVoucher = (type) => {
     return new Promise((resolve) => {
         /**
          * Create new UniFi controller object

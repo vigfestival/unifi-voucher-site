@@ -127,7 +127,7 @@ app.get('/voucher', async (req, res) => {
 
     const hour = new Date().getHours();
     const timeHeader = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
-    const voucherCode = await unifi(types(req.query.type, true));
+    const voucherCode = await unifi.createVoucher(types(req.query.type, true));
 
     res.render('voucher', {
         error: typeof req.query.error === 'string' && req.query.error !== '',

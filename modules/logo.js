@@ -9,7 +9,7 @@ module.exports = () => {
     console.log(`\\____/_/ /_/_/_/   /_/     |___/\\____/\\__,_/\\___/_/ /_/\\___/_/     `);
     console.log('');
     console.log('                           UniFi Voucher                           ');
-    console.log('                         By: Glenn de Haan                         ');
-    console.log('         https://github.com/glenndehaan/unifi-voucher-site         ');
+    console.log('              By: Glenn de Haan, forked by McTristan               ');
+    console.log('          https://github.com/mctristan/unifi-voucher-site          ');
     console.log('');
 }
