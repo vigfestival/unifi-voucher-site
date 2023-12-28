@@ -148,10 +148,7 @@ app.get('/vouchers', async (req, res) => {
     res.render('existing_vouchers', {
         error: typeof req.query.error === 'string' && req.query.error !== '',
         error_text: req.query.error || '',
-        banner_image: process.env.BANNER_IMAGE || `/images/bg-${random(1, 10)}.jpg`,
         app_header: 'Existing vouchers',
-        code: req.query.code,
-        type: req.query.type,
         vouchers: vouchers,
         sid: uuidv4(),
         showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
