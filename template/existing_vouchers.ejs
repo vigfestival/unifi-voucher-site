@@ -1,66 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Existing WiFi Vouchers</title>
+<head>
+    <title>Existing WiFi Vouchers</title>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
 
-        <meta name="description" content="UniFi Voucher">
-        <meta name="author" content="Glenn de Haan">
+    <meta name="description" content="UniFi Voucher">
+    <meta name="author" content="Glenn de Haan">
 
-        <meta property="og:title" content="Voucher | UniFi Voucher"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:description" content="UniFi Voucher"/>
+    <meta property="og:title" content="Voucher | UniFi Voucher"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="UniFi Voucher"/>
 
-        <link rel="manifest" href="/manifest.json">
-        <link rel="shortcut icon" href="/images/favicon.ico">
-        <link rel="apple-touch-icon" href="/images/icon/logo_256x256.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/icon/logo_256x256.png">
 
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#1875b6">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1875b6">
 
-        <link rel="preload" href="<%= banner_image %>" as="image">
-        <link rel="preload" href="/images/unifi-icon.png" as="image">
-        <link rel="preload" href="/dist/style.css" as="style">
-        <link href="/dist/style.css" rel="stylesheet">
-    </head>
-    <body class="bg-white dark:bg-neutral-900 dark:text-gray-100 h-screen">
-        <div class="w-full flex flex-wrap">
-            <div class="w-full md:w-1/2 flex flex-col">
-                <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-                    <a href="/" title="Homepage">
-                        <img class="h-20 w-20" alt="UniFi Logo" src="/images/unifi-icon.png"/>
-                    </a>
-                </div>
-
-                <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-                    <p class="text-center text-3xl"><%= app_header %></p>
-                    <ul>
-                        <% vouchers.forEach(function(voucher) { %>
-                            <li><%= voucher.code %></li>
-                        <% }); %>
-                    </ul>
-
-                </div>
-
-                <% if(showFooter === true) { %>
-                <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
-                    <p>
-                        Powered by: McTristan, with ideas and work of <a href="https://glenndehaan.com" class="underline font-semibold">Glenn de Haan</a>.<br/>
-                        Want your own portal? Checkout the project on: <a href="https://github.com/mctristan/unifi-voucher-site" class="underline font-semibold">GitHub</a> (fork of: <a href="https://github.com/glenndehaan/unifi-voucher-site" class="underline font-semibold">GitHub</a>)
-                    </p>
-                    <p class="text-[10px] not-italic">
-                        SID: <%= sid %>
-                    </p>
-                </div>
-                <% } %>
-            </div>
-
-            <div class="w-1/2 shadow-2xl">
-                <img class="object-cover w-full h-screen hidden md:block" src="<%= banner_image %>">
-            </div>
+    <link rel="preload" href="<%= banner_image %>" as="image">
+    <link rel="preload" href="/images/unifi-icon.png" as="image">
+    <link rel="preload" href="/dist/style.css" as="style">
+    <link href="/dist/style.css" rel="stylesheet">
+</head>
+<body class="bg-white dark:bg-neutral-900 dark:text-gray-100 h-screen">
+<div class="w-full flex flex-wrap">
+    <div class="w-full md:w-1/2 flex flex-col">
+        <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
+            <a href="/" title="Homepage">
+                <img class="h-20 w-20" alt="UniFi Logo" src="/images/unifi-icon.png"/>
+            </a>
         </div>
-    </body>
+
+        <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+            <p class="text-center text-3xl"><%= app_header %></p>
+
+
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Code
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Expiration
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Type
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Data Limit
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Download Limit
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Upload Limit
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <% vouchers.forEach(function(voucher) { %>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row"
+                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <%= voucher.code %>
+                            </th>
+                            <td class="px-6 py-4">
+                            </td>
+                            <td class="px-6 py-4">
+                            </td>
+                            <td class="px-6 py-4">
+                            </td>
+                            <td class="px-6 py-4">
+                            </td>
+                            <td class="px-6 py-4">
+                            </td>
+                        </tr>
+                    <% }); %>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <ul>
+                <% vouchers.forEach(function(voucher) { %>
+                    <li><%= voucher.code %></li>
+                <% }); %>
+            </ul>
+
+        </div>
+
+        <% if(showFooter === true) { %>
+            <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
+                <p>
+                    Powered by: McTristan, with ideas and work of <a href="https://glenndehaan.com"
+                                                                     class="underline font-semibold">Glenn de
+                        Haan</a>.<br/>
+                    Want your own portal? Checkout the project on: <a
+                            href="https://github.com/mctristan/unifi-voucher-site" class="underline font-semibold">GitHub</a>
+                    (fork of: <a href="https://github.com/glenndehaan/unifi-voucher-site"
+                                 class="underline font-semibold">GitHub</a>)
+                </p>
+                <p class="text-[10px] not-italic">
+                    SID: <%= sid %>
+                </p>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="w-1/2 shadow-2xl">
+        <img class="object-cover w-full h-screen hidden md:block" src="<%= banner_image %>">
+    </div>
+</div>
+</body>
 </html>
