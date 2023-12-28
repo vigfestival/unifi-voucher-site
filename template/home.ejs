@@ -1,101 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>UniFi Voucher</title>
+<head>
+    <title>UniFi Voucher</title>
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
 
-        <meta name="description" content="UniFi Voucher">
-        <meta name="author" content="Glenn de Haan">
+    <meta name="description" content="UniFi Voucher">
+    <meta name="author" content="Glenn de Haan">
 
-        <meta property="og:title" content="Login | UniFi Voucher"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:description" content="UniFi Voucher"/>
+    <meta property="og:title" content="Login | UniFi Voucher"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="UniFi Voucher"/>
 
-        <link rel="manifest" href="/manifest.json">
-        <link rel="shortcut icon" href="/images/favicon.ico">
-        <link rel="apple-touch-icon" href="/images/icon/logo_256x256.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/icon/logo_256x256.png">
 
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#1875b6">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1875b6">
 
-        <link rel="preload" href="<%= banner_image %>" as="image">
-        <link rel="preload" href="/images/unifi-icon.png" as="image">
-        <link rel="preload" href="/dist/style.css" as="style">
-        <link href="/dist/style.css" rel="stylesheet">
-    </head>
-    <body class="bg-white dark:bg-neutral-900 dark:text-gray-100 h-screen">
-        <div class="w-full flex flex-wrap">
-            <div class="w-full md:w-1/2 flex flex-col">
-                <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-                    <a href="/" title="Homepage">
-                        <img class="h-20 w-20" alt="UniFi Logo" src="/images/unifi-icon.png"/>
-                    </a>
-                </div>
-
-                <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
-                    <p class="text-center text-3xl"><%= app_header %></p>
-                    <% if(error) { %>
-                        <div class="bg-red-500 text-white p-3 mt-8 rounded shadow-lg flex items-center">
-                            <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            <div><%= error_text %></div>
-                        </div>
-                    <% } %>
-                    <form class="flex flex-col pt-3 md:pt-8" action="/" method="post" enctype="multipart/form-data">
-                        <% if(checkPassword === true) { %>
-                        <div class="flex flex-col pt-4">
-                            <label for="password" class="text-lg">Password</label>
-                            <input type="password" id="password" name="password" placeholder="Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-100" required>
-                        </div>
-                        <% } %>
-                        <div class="flex flex-col pt-4">
-                            <label for="voucher-type" class="text-lg">Voucher Type</label>
-                            <div class="relative inline-block w-full">
-                                <select id="voucher-type" name="voucher-type" class="shadow appearance-none border rounded w-full py-2 px-3 pr-8 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-100" required>
-                                    <% voucher_types.forEach((type) => { %>
-                                        <option value="<%= type.raw %>"><%= timeConvert(type.expiration) %>, <%= type.usage === '1' ? 'single-use' : 'multi-use' %><%= typeof type.upload === "undefined" && typeof type.download === "undefined" && typeof type.megabytes === "undefined" ? ', no limits' : '' %><%= typeof type.upload !== "undefined" ? `, upload bandwidth limit: ${type.upload} kb/s` : '' %><%= typeof type.download !== "undefined" ? `, download bandwidth limit: ${type.download} kb/s` : '' %><%= typeof type.megabytes !== "undefined" ? `, quota limit: ${type.megabytes} mb` : '' %></option>
-                                    <% }); %>
-                                </select>
-                                <div class="absolute inset-y-0 right-0 flex items-center px-2 mt-1 pointer-events-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-
-                        <input type="submit" value="Create Voucher" class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
-                    </form>
-                </div>
-
-                <% if (showExistingVouchers === true) { %>
-                <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
-                    <p>
-                        <a href="/vouchers" class="underline font-semibold">Existing vouchers</a>
-                    </p>
-                </div>
-                <% } %>
-
-                <% if (showFooter === true) { %>
-                <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
-                    <p>
-                        Powered by: McTristan, with ideas and work of <a href="https://glenndehaan.com" class="underline font-semibold">Glenn de Haan</a>.<br/>
-                        Want your own portal? Checkout the project on: <a href="https://github.com/mctristan/unifi-voucher-site" class="underline font-semibold">GitHub</a> (fork of: <a href="https://github.com/glenndehaan/unifi-voucher-site" class="underline font-semibold">GitHub</a>)
-                    </p>
-                    <p class="text-[10px] not-italic">
-                        SID: <%= sid %>, CheckPassword: <% checkPassword %>
-                    </p>
-                </div>
-                <% } %>
-            </div>
-
-            <div class="w-1/2 shadow-2xl">
-                <img class="object-cover w-full h-screen hidden md:block" src="<%= banner_image %>">
-            </div>
+    <link rel="preload" href="<%= banner_image %>" as="image">
+    <link rel="preload" href="/images/unifi-icon.png" as="image">
+    <link rel="preload" href="/dist/style.css" as="style">
+    <link href="/dist/style.css" rel="stylesheet">
+</head>
+<body class="bg-white dark:bg-neutral-900 dark:text-gray-100 h-screen">
+<div class="w-full flex flex-wrap">
+    <div class="w-full md:w-1/2 flex flex-col">
+        <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
+            <a href="/" title="Homepage">
+                <img class="h-20 w-20" alt="UniFi Logo" src="/images/unifi-icon.png"/>
+            </a>
         </div>
-    </body>
+
+        <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+            <p class="text-center text-3xl"><%= app_header %></p>
+            <% if(error) { %>
+                <div class="bg-red-500 text-white p-3 mt-8 rounded shadow-lg flex items-center">
+                    <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                         fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <div><%= error_text %></div>
+                </div>
+            <% } %>
+            <form class="flex flex-col pt-3 md:pt-8" action="/" method="post" enctype="multipart/form-data">
+                <% if(checkPassword === true) { %>
+                    <div class="flex flex-col pt-4">
+                        <label for="password" class="text-lg">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password"
+                               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-100"
+                               required>
+                    </div>
+                <% } %>
+                <div class="flex flex-col pt-4">
+                    <label for="voucher-type" class="text-lg">Voucher Type</label>
+                    <div class="relative inline-block w-full">
+                        <select id="voucher-type" name="voucher-type"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 pr-8 text-gray-700 mt-1 leading-tight focus:outline-none focus:shadow-outline dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-100"
+                                required>
+                            <% voucher_types.forEach((type) => { %>
+                                <option value="<%= type.raw %>"><%= timeConvert(type.expiration) %>
+                                    , <%= type.usage === '1' ? 'single-use' : 'multi-use' %><%= typeof type.upload === "undefined" && typeof type.download === "undefined" && typeof type.megabytes === "undefined" ? ', no limits' : '' %><%= typeof type.upload !== "undefined" ? `, upload bandwidth limit: ${type.upload} kb/s` : '' %><%= typeof type.download !== "undefined" ? `, download bandwidth limit: ${type.download} kb/s` : '' %><%= typeof type.megabytes !== "undefined" ? `, quota limit: ${type.megabytes} mb` : '' %></option>
+                            <% }); %>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-2 mt-1 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clipRule="evenodd" fillRule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="submit" value="Create Voucher"
+                       class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
+            </form>
+        </div>
+
+        <% if (showExistingVouchers === true) { %>
+            <div class="strike">
+                <span>or</span>
+            </div>
+            <div class="text-center text-gray-400 text-sm italic pt-14 pb-14">
+                <p>
+                    <a href="/vouchers" class="underline font-semibold">Show existing vouchers</a>
+                </p>
+            </div>
+        <% } %>
+
+        <% if (showFooter === true) { %>
+            <div class="text-center text-gray-400 text-sm italic pt-12 pb-12">
+                <p>
+                    Powered by: McTristan, with ideas and work of <a href="https://glenndehaan.com"
+                                                                     class="underline font-semibold">Glenn de
+                        Haan</a>.<br/>
+                    Want your own portal? Checkout the project on: <a
+                            href="https://github.com/mctristan/unifi-voucher-site" class="underline font-semibold">GitHub</a>
+                    (fork of: <a href="https://github.com/glenndehaan/unifi-voucher-site"
+                                 class="underline font-semibold">GitHub</a>)
+                </p>
+                <p class="text-[10px] not-italic">
+                    SID: <%= sid %>, CheckPassword:
+                    <% checkPassword %>
+                </p>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="w-1/2 shadow-2xl">
+        <img class="object-cover w-full h-screen hidden md:block" src="<%= banner_image %>">
+    </div>
+</div>
+</body>
 </html>
