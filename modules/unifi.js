@@ -83,7 +83,7 @@ module.exports.getExistingVouchers = () => {
         controller.login(config.unifi.username, config.unifi.password).then(() => {
             controller.getSitesStats().then(() => {
                 controller.getVouchers().then((voucher_data_complete) => {
-                    let vouchers = {};
+                    let vouchers = [];
                     voucher_data_complete.forEach(function(voucher) {
                         vouchers.push({
                             code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`
