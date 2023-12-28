@@ -28,7 +28,7 @@
 </head>
 <body class="bg-white dark:bg-neutral-900 dark:text-gray-100 h-screen">
 <div class="w-full flex flex-wrap">
-    <div class="w-full md:w-1/2 flex flex-col">
+    <div class="w-full flex flex-col">
         <div class="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
             <a href="/" title="Homepage">
                 <img class="h-20 w-20" alt="UniFi Logo" src="/images/unifi-icon.png"/>
@@ -37,7 +37,6 @@
 
         <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
             <p class="text-center text-3xl"><%= app_header %></p>
-
 
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -87,13 +86,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <ul>
-                <% vouchers.forEach(function(voucher) { %>
-                    <li><%= voucher.code %></li>
-                <% }); %>
-            </ul>
-
         </div>
 
         <% if(showFooter === true) { %>
@@ -114,9 +106,6 @@
         <% } %>
     </div>
 
-    <div class="w-1/2 shadow-2xl">
-        <img class="object-cover w-full h-screen hidden md:block" src="<%= banner_image %>">
-    </div>
 </div>
 </body>
 </html>
