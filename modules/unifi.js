@@ -2,7 +2,7 @@
  * Import vendor modules
  */
 const unifi = require('node-unifi');
-
+const time = require('../modules/time');
 /**
  * Import own modules
  */
@@ -86,7 +86,9 @@ module.exports.getExistingVouchers = () => {
                     let vouchers = [];
                     voucher_data_complete.forEach(function(voucher) {
                         vouchers.push({
-                            code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`
+                            code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`,
+                            duration: time(voucher.duration),
+                            type: voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use'
                         });
                     });
                     resolve(vouchers);
