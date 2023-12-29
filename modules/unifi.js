@@ -152,6 +152,7 @@ module.exports.revokeVoucher = (id) => {
             controller.getSitesStats().then(() => {
                 controller.revokeVoucher(id).then(() => {
                     console.log(`Revoked voucher ${id} ...`);
+                    resolve();
                 }).catch((e) => {
                     console.log('Error while revoking voucher!');
                     console.log(e);
