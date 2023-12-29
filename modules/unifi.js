@@ -194,7 +194,7 @@ module.exports.printVoucher = (create_time) => {
         });
 
         /**
-         * Login and revoke a voucher
+         * Login and print a voucher
          */
         controller.login(config.unifi.username, config.unifi.password).then(() => {
             controller.getSitesStats().then(() => {
