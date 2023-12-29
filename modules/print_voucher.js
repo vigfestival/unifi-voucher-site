@@ -1,4 +1,5 @@
 const {ThermalPrinter, CharacterSet, BreakLine} = require('node-thermal-printer');
+const time = require("./time");
 
 const config = {
     printer: {
@@ -17,23 +18,22 @@ module.exports.printVoucher = async (voucher) => {
     });
     let isConnected = await printer.isPrinterConnected();       // Check if printer is connected, return bool of status
 
+    let duration = time(voucher.duration);
+    let type= voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use';
+    let usage_quota = voucher.quota === 1 ? `${voucher.qos_usage_quota} MB` : 'unlimited';
+    let upload_limit = voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited';
+    let download_limit = voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited';
+
     let printSuccessful = true;
     try {
-        printer.getStatus();
-
-        try {
-            const status = await printer.execute({ waitForResponse: true });
-            console.log('Printer status:', status);
-        } catch (e) {
-            console.error('Print failed:', e);
-        }
-
         printer.alignCenter();
         printer.newLine();
         printer.println("WiFi Voucher Code");// Append text with new line
         printer.newLine();
-        printer.println(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`)
-        printer.cut();
+        printer.println(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`);
+        printer.println(`Duration: ${duration} | Type: ${type}`);
+        printer.println(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`)
+//        printer.cut();
         await printer.execute();
     }
     catch (e) {
