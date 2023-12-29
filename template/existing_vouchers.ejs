@@ -156,7 +156,7 @@
 
         printButtons.forEach(el => el.addEventListener('click', event => {
             let create_time = event.target.getAttribute('data-id');
-            if (create_time === undefined || id == null) {
+            if (create_time === undefined || create_time == null) {
                 create_time = event.target.closest('button').getAttribute('data-id');
             }
 
