@@ -154,7 +154,9 @@ app.get('/vouchers', async (req, res) => {
         showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
     });
 });
-
+app.get('/revoke', async (req, res) => {
+    await unifi.revokeVoucher(req.query.id);
+});
 /**
  * Setup default 404 message
  */

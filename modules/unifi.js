@@ -17,7 +17,7 @@ const config = {
 };
 
 /**
- * Exports the UniFi voucher function
+ * Exports the createVoucher function
  *
  * @param type
  * @returns {Promise<unknown>}
@@ -64,7 +64,7 @@ module.exports.createVoucher = (type) => {
 };
 
 /**
- * Exports the UniFi voucher function
+ * Exports the getExistingVouchers function
  *
  * @returns {Promise<unknown>}
  */
@@ -86,6 +86,7 @@ module.exports.getExistingVouchers = () => {
                     let vouchers = [];
                     voucher_data_complete.forEach(function(voucher) {
                         vouchers.push({
+                            id: voucher._id,
                             code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`,
                             duration: time(voucher.duration),
                             type: voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use',
@@ -111,4 +112,44 @@ module.exports.getExistingVouchers = () => {
             process.exit(1);
         });
     });
+
+};
+
+
+/**
+ * Exports the revokeVoucher function
+ *
+ * @returns {Promise<unknown>}
+ */
+module.exports.revokeVoucher = (id) => {
+    return new Promise((resolve) => {
+        /**
+         * Create new UniFi controller object
+         *
+         * @type {Controller}
+         */
+        const controller = new unifi.Controller({host: config.unifi.ip, port: config.unifi.port, site: config.unifi.siteID, sslverify: false});
+
+        /**
+         * Login and revoke a voucher
+         */
+        controller.login(config.unifi.username, config.unifi.password).then(() => {
+            controller.getSitesStats().then(() => {
+                controller.revokeVoucher(id).catch((e) => {
+                    console.log('Error while revoking voucher!');
+                    console.log(e);
+                    process.exit(1);
+                });
+            }).catch((e) => {
+                console.log('Error while getting site stats!');
+                console.log(e);
+                process.exit(1);
+            });
+        }).catch((e) => {
+            console.log('Error while logging in!');
+            console.log(e);
+            process.exit(1);
+        });
+    });
+
 };
