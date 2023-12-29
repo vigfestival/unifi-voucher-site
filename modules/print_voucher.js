@@ -27,15 +27,17 @@ module.exports.printVoucher = async (voucher) => {
 
     let printSuccessful = true;
     try {
+
         printer.alignCenter();
-        printer.newLine();
+       /* printer.newLine();
         printer.println("WiFi Voucher Code");// Append text with new line
         printer.newLine();
         printer.println(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`);
         printer.println(`Duration: ${duration} | Type: ${type}`);
         printer.println(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`)
         printer.cut();
-
+*/
+        await printer.printImage('./images/unifi-icon.png')
         await printer.execute();
     }
     catch (e) {
