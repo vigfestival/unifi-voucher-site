@@ -29,6 +29,7 @@ module.exports.printVoucher = async (voucher) => {
         printer.println("WiFi Voucher Code");// Append text with new line
         printer.println(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`)
         printer.cut();
+        printer.execute();
     }
     catch (e) {
         console.log(e);
