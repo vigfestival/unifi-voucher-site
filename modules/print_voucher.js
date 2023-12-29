@@ -35,7 +35,8 @@ module.exports.printVoucher = async (voucher) => {
         printer.println(`Duration: ${duration} | Type: ${type}`);
         printer.println(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`)
         printer.cut();
-        await printer.execute();
+        const status = await printer.execute();
+        console.log(`Printer status: ${status}`)
     }
     catch (e) {
         console.log(e);
