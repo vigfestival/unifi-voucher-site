@@ -3,6 +3,7 @@
  */
 const unifi = require('node-unifi');
 const time = require('../modules/time');
+const print_voucher = require('../modules/print_voucher');
 /**
  * Import own modules
  */
@@ -97,6 +98,7 @@ module.exports.getExistingVouchers = () => {
                     voucher_data_complete.forEach(function (voucher) {
                         vouchers.push({
                             id: voucher._id,
+                            create_time: voucher.create_time,
                             code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`,
                             duration: time(voucher.duration),
                             type: voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use',
@@ -124,7 +126,6 @@ module.exports.getExistingVouchers = () => {
     });
 
 };
-
 
 /**
  * Exports the revokeVoucher function
@@ -155,6 +156,54 @@ module.exports.revokeVoucher = (id) => {
                     resolve();
                 }).catch((e) => {
                     console.log('Error while revoking voucher!');
+                    console.log(e);
+                    process.exit(1);
+                });
+            }).catch((e) => {
+                console.log('Error while getting site stats!');
+                console.log(e);
+                process.exit(1);
+            });
+        }).catch((e) => {
+            console.log('Error while logging in!');
+            console.log(e);
+            process.exit(1);
+        });
+    });
+
+};
+
+
+/**
+ * Exports the printVoucher function
+ *
+ * @returns {Promise<unknown>}
+ */
+module.exports.printVoucher = (create_time) => {
+    return new Promise((resolve) => {
+        /**
+         * Create new UniFi controller object
+         *
+         * @type {Controller}
+         */
+        const controller = new unifi.Controller({
+            host: config.unifi.ip,
+            port: config.unifi.port,
+            site: config.unifi.siteID,
+            sslverify: false
+        });
+
+        /**
+         * Login and revoke a voucher
+         */
+        controller.login(config.unifi.username, config.unifi.password).then(() => {
+            controller.getSitesStats().then(() => {
+                controller.getVouchers(create_time).then(async (voucher) => {
+                    await print_voucher.printVoucher(voucher);
+                    console.log(`Printed voucher ${voucher._id} ...`);
+                    resolve();
+                }).catch((e) => {
+                    console.log('Error while getting voucher!');
                     console.log(e);
                     process.exit(1);
                 });

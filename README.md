@@ -54,6 +54,16 @@ services:
       SHOW_FOOTER: 'true'
       # show existing vouchers (as a link), defaults to 'true' if not provided
       SHOW_EXISTING_VOUCHERS: 'true'
+      # support label printers and show print button (see printer settings)
+      PRINT_VOUCHER: 'false'
+      # use network access
+      PRINTER_USE_TCP: 'true'
+      # printer interface if NOT using a network printer (i.e. PRINTER_USE_TCP is set to 'false') - see https://github.com/Klemen1337/node-thermal-printer/blob/master/README.md#interface-options
+      PRINTER_INTERFACE: ''
+      # ip of the network enabled label printer
+      PRINTER_IP: '192.168.178.100'
+      # printer type (i.e. "star", "epson", "brother") -
+      PRINTER_TYPE: 'brother'
       # Voucher Types, format: expiration in minutes (required),single-use or multi-use vouchers value - '0' is for multi-use - '1' is for single-use (optional),upload speed limit in kbps (optional),download speed limit in kbps (optional),data transfer limit in MB (optional)
       # To skip a parameter just but nothing in between the comma's
       # After a voucher type add a semicolon, after the semicolon you can start a new voucher type

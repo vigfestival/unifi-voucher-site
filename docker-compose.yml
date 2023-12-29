@@ -15,3 +15,8 @@ services:
       SHOW_FOOTER: 'true'
       SHOW_EXISTING_VOUCHERS: 'true'
       VOUCHER_TYPES: '480,0,,,;'
+      PRINT_VOUCHER: 'false'
+      PRINTER_USE_TCP: 'true'
+      PRINTER_INTERFACE: ''
+      PRINTER_IP: '192.168.178.100'
+      PRINTER_TYPE: 'brother'

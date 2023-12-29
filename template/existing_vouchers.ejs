@@ -60,6 +60,10 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                         </th>
+                        <% if (allowPrint) { %>
+                            <th scope="col" class="px-6 py-3">
+                            </th>
+                        <% } %>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,7 +90,6 @@
                                 <%= voucher.upload_limit %>
                             </td>
                             <td class="px-6 py-4">
-
                                 <button type="button" data-id="<%= voucher.id %>" title="revoke"
                                         class="revoke-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg class="w-[16px] h-[16px] text-gray-800 dark:text-white" aria-hidden="true"
@@ -94,8 +97,18 @@
                                         <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
                                     </svg>
                                 </button>
-
                             </td>
+                            <% if (allowPrint) { %>
+                                <td class="px-6 py-4">
+                                    <button type="button" data-id="<%= voucher.create_time %>" title="print"
+                                            class="print-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg class="w-[16px] h-[16px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M5 20h10a1 1 0 0 0 1-1v-5H4v5a1 1 0 0 0 1 1Z"/>
+                                            <path d="M18 7H2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2v-3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-1-2V2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3h14Z"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            <% } %>
                         </tr>
                     <% }); %>
 
@@ -138,6 +151,17 @@
             let tableRow = event.target.closest('tr');
             revokeVoucher(id, tableRow);
         }));
+
+        const printButtons = document.querySelectorAll('button.print-button');
+
+        printButtons.forEach(el => el.addEventListener('click', event => {
+            let create_time = event.target.getAttribute('data-id');
+            if (create_time === undefined || id == null) {
+                create_time = event.target.closest('button').getAttribute('data-id');
+            }
+
+            printVoucher(create_time);
+        }));
     });
 
     function revokeVoucher(id, tableRow) {
@@ -151,6 +175,20 @@
                 }
 
                 tableRow.parentNode.removeChild(tableRow);
+            })
+            .catch(function (err) {
+                console.log('Fetch Error :-S', err);
+            });
+    }
+
+    function printVoucher(create_time) {
+        fetch(`/print?create_time=${create_time}`)
+            .then(function (response) {
+                if (response.status >= 400) {
+                    console.log(
+                        'Looks like there was a problem. Status Code: ' + response.status
+                    );
+                }
             })
             .catch(function (err) {
                 console.log('Fetch Error :-S', err);

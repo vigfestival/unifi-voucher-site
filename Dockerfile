@@ -9,7 +9,7 @@ FROM alpine:3.16
 
 # Install packages
 RUN apk add --no-cache nodejs npm
-
+RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 #
 # Require app
 #

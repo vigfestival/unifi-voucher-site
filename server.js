@@ -151,11 +151,16 @@ app.get('/vouchers', async (req, res) => {
         app_header: 'Existing vouchers',
         vouchers: vouchers,
         sid: uuidv4(),
-        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
+        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE',
+        allowPrint: process.env.PRINT_VOUCHER && process.env.PRINT_VOUCHER.toUpperCase() === 'TRUE'
     });
 });
 app.get('/revoke', async (req, res) => {
     await unifi.revokeVoucher(req.query.id);
+    res.status(202).end();
+});
+app.get('/print', async (req, res) => {
+    await unifi.printVoucher(req.query.create_time);
     res.status(202).end();
 });
 /**
