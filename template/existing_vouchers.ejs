@@ -130,7 +130,10 @@
         const revokeButtons = document.querySelectorAll('button.revoke-button');
 
         revokeButtons.forEach(el => el.addEventListener('click', event => {
-            let id = event.target.getAttribute("data-id");
+            let id = event.target.getAttribute('data-id');
+            if (id === undefined || id == null) {
+                id = event.target.parent.getAttribute('data-id');
+            }
             revokeVoucher(id);
         }));
     });
