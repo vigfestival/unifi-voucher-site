@@ -18,6 +18,7 @@ module.exports.printVoucher = async (voucher) => {
     });
     let isConnected = await printer.isPrinterConnected();       // Check if printer is connected, return bool of status
 
+    console.log(`Printer is connected: ${isConnected}`)
     let duration = time(voucher.duration);
     let type= voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use';
     let usage_quota = voucher.quota === 1 ? `${voucher.qos_usage_quota} MB` : 'unlimited';
