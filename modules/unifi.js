@@ -29,7 +29,12 @@ module.exports.createVoucher = (type) => {
          *
          * @type {Controller}
          */
-        const controller = new unifi.Controller({host: config.unifi.ip, port: config.unifi.port, site: config.unifi.siteID, sslverify: false});
+        const controller = new unifi.Controller({
+            host: config.unifi.ip,
+            port: config.unifi.port,
+            site: config.unifi.siteID,
+            sslverify: false
+        });
 
         /**
          * Login and create a voucher
@@ -75,7 +80,12 @@ module.exports.getExistingVouchers = () => {
          *
          * @type {Controller}
          */
-        const controller = new unifi.Controller({host: config.unifi.ip, port: config.unifi.port, site: config.unifi.siteID, sslverify: false});
+        const controller = new unifi.Controller({
+            host: config.unifi.ip,
+            port: config.unifi.port,
+            site: config.unifi.siteID,
+            sslverify: false
+        });
 
         /**
          * Login and gets all existing vouchers
@@ -84,14 +94,14 @@ module.exports.getExistingVouchers = () => {
             controller.getSitesStats().then(() => {
                 controller.getVouchers().then((voucher_data_complete) => {
                     let vouchers = [];
-                    voucher_data_complete.forEach(function(voucher) {
+                    voucher_data_complete.forEach(function (voucher) {
                         vouchers.push({
                             id: voucher._id,
                             code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`,
                             duration: time(voucher.duration),
                             type: voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use',
-                            usage_quota: voucher.quota === 1 ? `${voucher.qos_usage_quota} MB`: 'unlimited',
-                            upload_limit: voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s`: 'unlimited',
+                            usage_quota: voucher.quota === 1 ? `${voucher.qos_usage_quota} MB` : 'unlimited',
+                            upload_limit: voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited',
                             download_limit: voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited'
                         });
                     });
@@ -128,14 +138,21 @@ module.exports.revokeVoucher = (id) => {
          *
          * @type {Controller}
          */
-        const controller = new unifi.Controller({host: config.unifi.ip, port: config.unifi.port, site: config.unifi.siteID, sslverify: false});
+        const controller = new unifi.Controller({
+            host: config.unifi.ip,
+            port: config.unifi.port,
+            site: config.unifi.siteID,
+            sslverify: false
+        });
 
         /**
          * Login and revoke a voucher
          */
         controller.login(config.unifi.username, config.unifi.password).then(() => {
             controller.getSitesStats().then(() => {
-                controller.revokeVoucher(id).catch((e) => {
+                controller.revokeVoucher(id).then(() => {
+                    console.log(`Revoked voucher ${id} ...`);
+                }).catch((e) => {
                     console.log('Error while revoking voucher!');
                     console.log(e);
                     process.exit(1);

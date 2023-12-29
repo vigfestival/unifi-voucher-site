@@ -21,7 +21,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1875b6">
 
-    <link rel="preload" href="/images/unifi-icon.png" as="image">
     <link rel="preload" href="/dist/style.css" as="style">
     <link href="/dist/style.css" rel="stylesheet">
 </head>
@@ -128,7 +127,7 @@
 <script type="application/javascript">
 
     document.addEventListener("DOMContentLoaded", function () {
-        const revokeButtons = document.querySelectorAll('.revoke-button');
+        const revokeButtons = document.querySelectorAll('button.revoke-button');
 
         revokeButtons.forEach(el => el.addEventListener('click', event => {
             let id = event.target.getAttribute("data-id");
