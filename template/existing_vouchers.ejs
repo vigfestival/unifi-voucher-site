@@ -135,7 +135,7 @@
     async function revokeVoucher(id) {
         let response = await fetch(`/revoke?id=${id}`);
         if (response.ok) {
-            alert("Voucher revoked"); //TODO: change this to popup a notification of some kind
+            location.reload();
         } else {
             alert(response.status);
         }
