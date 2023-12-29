@@ -27,6 +27,8 @@ module.exports.printVoucher = async (voucher) => {
 
     let printSuccessful = true;
     try {
+        let raw = await printer.raw(Buffer.from("Hello world"));    // Print instantly. Returns success or throws error
+
         printer.alignCenter();
         printer.newLine();
         printer.println("WiFi Voucher Code");// Append text with new line
@@ -35,8 +37,8 @@ module.exports.printVoucher = async (voucher) => {
         printer.println(`Duration: ${duration} | Type: ${type}`);
         printer.println(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`)
         printer.cut();
-        const status = await printer.execute();
-        console.log(`Printer status: ${status}`)
+
+        await printer.execute();
     }
     catch (e) {
         console.log(e);
