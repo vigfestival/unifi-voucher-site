@@ -126,12 +126,15 @@
 </div>
 </body>
 <script type="application/javascript">
-    const revokeButtons = document.querySelectorAll('.revoke-button');
 
-    revokeButtons.forEach(el => el.addEventListener('click', event => {
-        let id = event.target.getAttribute("data-id");
-        revokeVoucher(id);
-    }));
+    document.addEventListener("DOMContentLoaded", function () {
+        const revokeButtons = document.querySelectorAll('.revoke-button');
+
+        revokeButtons.forEach(el => el.addEventListener('click', event => {
+            let id = event.target.getAttribute("data-id");
+            revokeVoucher(id);
+        }));
+    });
 
     function revokeVoucher(id) {
 
