@@ -34,7 +34,7 @@ module.exports.printVoucher = async (voucher) => {
         printer.println(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`);
         printer.println(`Duration: ${duration} | Type: ${type}`);
         printer.println(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`)
-//        printer.cut();
+        printer.cut();
         await printer.execute();
     }
     catch (e) {
