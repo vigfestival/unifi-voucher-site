@@ -5,7 +5,8 @@ const config = {
         ip: process.env.PRINTER_IP || '192.168.1.100',
         type: process.env.PRINTER_TYPE || 'brother',
         useTcp: process.env.PRINTER_USE_TCP || true,
-        interface: process.env.PRINTER_INTERFACE || null
+        interface: process.env.PRINTER_INTERFACE || null,
+        characterSet: process.env.PRINTER_CHARACTERSET || 'WPC1252'
     }
 };
 
@@ -13,7 +14,7 @@ module.exports.printVoucher = async (voucher) => {
     let printer = new ThermalPrinter({
         type: config.printer.type,                                  // Printer type: 'star', 'epson', 'brother' etc.
         interface: config.printer.useTcp ? `tcp://${config.printer.ip}` : config.printer.interface,  // Printer interface
-        characterSet: CharacterSet.PC852_LATIN2,                  // Printer character set
+        characterSet: config.printer.characterSet,                 // Printer character set
         removeSpecialCharacters: false,                           // Removes special characters - default: false
         lineCharacter: "=",                                       // Set character for lines - default: "-"
         breakLine: BreakLine.WORD,                                // Break line after WORD or CHARACTERS. Disabled with NONE - default: WORD

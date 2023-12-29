@@ -64,6 +64,8 @@ services:
       PRINTER_IP: '192.168.178.100'
       # printer type (i.e. "star", "epson", "brother") -
       PRINTER_TYPE: 'brother'
+      # printer characterset
+      PRINTER_CHARACTERSET: 'WPC1252'
       # Voucher Types, format: expiration in minutes (required),single-use or multi-use vouchers value - '0' is for multi-use - '1' is for single-use (optional),upload speed limit in kbps (optional),download speed limit in kbps (optional),data transfer limit in MB (optional)
       # To skip a parameter just but nothing in between the comma's
       # After a voucher type add a semicolon, after the semicolon you can start a new voucher type
