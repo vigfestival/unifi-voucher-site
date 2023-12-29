@@ -131,6 +131,7 @@
 
         revokeButtons.forEach(el => el.addEventListener('click', event => {
             let id = event.target.getAttribute('data-id');
+            debugger;
             if (id === undefined || id == null) {
                 id = event.target.parentNode.getAttribute('data-id');
             }
