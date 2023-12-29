@@ -134,29 +134,27 @@
             if (id === undefined || id == null) {
                 id = event.target.closest('button').getAttribute('data-id');
             }
-            if (revokeVoucher(id)) {
-                debugger;
-                let tableRow = event.target.closest('tr');
-                tableRow.parentNode.removeChild(tableRow);
-            }
+
+            let tableRow = event.target.closest('tr');
+            revokeVoucher(id, tableRow);
         }));
     });
 
-    function revokeVoucher(id) {
+    function revokeVoucher(id, tableRow) {
         fetch(`/revoke?id=${id}`)
             .then(function (response) {
                 if (response.status >= 400) {
                     console.log(
                         'Looks like there was a problem. Status Code: ' + response.status
                     );
-                    return false;
+                    return;
                 }
-                return true;
+
+                tableRow.parentNode.removeChild(tableRow);
             })
             .catch(function (err) {
                 console.log('Fetch Error :-S', err);
             });
-        return false;
     }
 </script>
 </html>
