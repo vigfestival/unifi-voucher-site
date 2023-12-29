@@ -156,7 +156,7 @@ app.get('/vouchers', async (req, res) => {
 });
 app.get('/revoke', async (req, res) => {
     await unifi.revokeVoucher(req.query.id);
-    res.status(204).send();
+    res.status(202).send('Voucher revoked');
 });
 /**
  * Setup default 404 message
