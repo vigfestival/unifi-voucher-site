@@ -135,6 +135,7 @@
                 id = event.target.closest('button').getAttribute('data-id');
             }
             if (revokeVoucher(id)) {
+                debugger;
                 let tableRow = event.target.closest('tr');
                 tableRow.parentNode.removeChild(tableRow);
             }
