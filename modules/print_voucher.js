@@ -1,4 +1,4 @@
-const {ThermalPrinter, CharacterSet, BreakLine} = require('node-thermal-printer');
+const {ThermalPrinter} = require('node-thermal-printer');
 const time = require("./time");
 
 const config = {
