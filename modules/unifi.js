@@ -199,8 +199,8 @@ module.exports.printVoucher = (create_time) => {
         controller.login(config.unifi.username, config.unifi.password).then(() => {
             controller.getSitesStats().then(() => {
                 controller.getVouchers(create_time).then(async (voucher) => {
-                    await print_voucher.printVoucher(voucher);
-                    console.log(`Printed voucher ${voucher._id} ...`);
+                    await print_voucher.printVoucher(voucher[0]);
+                    console.log(`Printed voucher ${voucher[0]._id} ...`);
                     resolve();
                 }).catch((e) => {
                     console.log('Error while getting voucher!');
