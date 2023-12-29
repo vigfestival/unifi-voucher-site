@@ -87,13 +87,15 @@
                                 <%= voucher.upload_limit %>
                             </td>
                             <td class="px-6 py-4">
-                                <form action="/revoke?id=<%= voucher.id %>" method="get">
-                                <button type="button" title="revoke" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+
+                                <button type="button" data-id="<%= voucher.id %>" title="revoke"
+                                        class="revoke-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-[16px] h-[16px] text-gray-800 dark:text-white" aria-hidden="true"
+                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                        <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
                                     </svg>
                                 </button>
-                                </form>
+
                             </td>
                         </tr>
                     <% }); %>
@@ -123,4 +125,20 @@
 
 </div>
 </body>
+<script type="application/javascript">
+    const revokeButtons = document.querySelectorAll('.revoke-button');
+
+    revokeButtons.forEach(el => el.addEventListener('click', async event => {
+        let id = event.target.getAttribute("data-id");
+        await revokeVoucher(id);
+    }));
+    async function revokeVoucher(id) {
+        let response = await fetch(`/revoke?id=${id}`);
+        if (response.ok) {
+            alert("Voucher revoked"); //TODO: change this to popup a notification of some kind
+        } else {
+            alert(response.status);
+        }
+    }
+</script>
 </html>
