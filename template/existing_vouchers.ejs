@@ -132,7 +132,7 @@
         revokeButtons.forEach(el => el.addEventListener('click', event => {
             let id = event.target.getAttribute('data-id');
             if (id === undefined || id == null) {
-                id = event.target.parent.getAttribute('data-id');
+                id = event.target.parentNode.getAttribute('data-id');
             }
             revokeVoucher(id);
         }));
