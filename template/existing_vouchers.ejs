@@ -128,17 +128,26 @@
 <script type="application/javascript">
     const revokeButtons = document.querySelectorAll('.revoke-button');
 
-    revokeButtons.forEach(el => el.addEventListener('click', async event => {
+    revokeButtons.forEach(el => el.addEventListener('click', event => {
         let id = event.target.getAttribute("data-id");
-        await revokeVoucher(id);
+        revokeVoucher(id);
     }));
-    async function revokeVoucher(id) {
-        let response = await fetch(`/revoke?id=${id}`);
-        if (response.ok) {
-            location.reload();
-        } else {
-            alert(response.status);
-        }
+
+    function revokeVoucher(id) {
+
+        fetch(`/revoke?id=${id}`)
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        'Looks like there was a problem. Status Code: ' + response.status
+                    );
+                    return;
+                }
+                location.reload();
+            })
+            .catch(function (err) {
+                console.log('Fetch Error :-S', err);
+            });
     }
 </script>
 </html>
