@@ -165,7 +165,11 @@ app.get('/print', async (req, res) => {
     res.status(202).end();
 });
 app.get('/createandprint', async (req, res) => {
-    const voucher = await unifi.createVoucher(voucherTypes[0]);
+    let typeIndex = req.query.type_index;
+    if (typeIndex === undefined || typeIndex == null) {
+        typeIndex = 0;
+    }
+    const voucher = await unifi.createVoucher(voucherTypes[typeIndex]);
     await unifi.printVoucher(voucher.create_time);
     res.status(202).end();
 });
