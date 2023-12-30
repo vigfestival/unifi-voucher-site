@@ -48,7 +48,7 @@
                 </div>
                 <% if(allowPrint) { %>
                     <input type="button" value="Print"
-                           class="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
+                           data-id="<%= voucher.create_time %>" class="print-print-button bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
                 <% } %>
                 <input type="hidden" id="password" name="password" value="<%= code %>"/>
                 <input type="hidden" id="voucher-type" name="voucher-type" value="<%= type %>"/>
@@ -80,4 +80,34 @@
     </div>
 </div>
 </body>
+
+<script type="application/javascript">
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const printButtons = document.querySelectorAll('button.print-button');
+
+        printButtons.forEach(el => el.addEventListener('click', event => {
+            let create_time = event.target.getAttribute('data-id');
+            if (create_time === undefined || create_time == null) {
+                create_time = event.target.closest('button').getAttribute('data-id');
+            }
+
+            printVoucher(create_time);
+        }));
+    });
+
+    function printVoucher(create_time) {
+        fetch(`/print?create_time=${create_time}`)
+            .then(function (response) {
+                if (response.status >= 400) {
+                    console.log(
+                        'Looks like there was a problem. Status Code: ' + response.status
+                    );
+                }
+            })
+            .catch(function (err) {
+                console.log('Fetch Error :-S', err);
+            });
+    }
+</script>
 </html>
