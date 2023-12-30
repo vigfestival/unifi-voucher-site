@@ -68,7 +68,7 @@ async function createVoucherImage(voucher) {
     context.font = `bold ${voucherCodeFontSize}pt Arial`;
     context.fillText(`${voucher.code}`, midWidth, paddingTop + titleHeight + spacingAfterTitle);
     context.font = `${descriptionFontSize}pt Arial`;
-    context.fillText(`Duration: ${voucher.duration} | Usage for: ${voucher.type}`, midWidth, paddingTop + titleHeight + spacingAfterTitle + voucherCodeHeight + spacingAfterVoucherCode);
+    context.fillText(`Duration: ${voucher.duration} | can be used for ${voucher.type}`, midWidth, paddingTop + titleHeight + spacingAfterTitle + voucherCodeHeight + spacingAfterVoucherCode);
     context.fillText(`Quota: ${voucher.usage_quota} | Download: ${voucher.download_limit} | Upload: ${voucher.upload_limit}`, midWidth, paddingTop + titleHeight + spacingAfterTitle + voucherCodeHeight + spacingAfterVoucherCode + spacingBetweenDescriptionLines);
 
     const buffer = canvas.toBuffer('image/png');
