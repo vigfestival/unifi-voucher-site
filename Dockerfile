@@ -8,7 +8,6 @@ FROM nikolaik/python-nodejs:latest
 #
 
 # Install packages
-RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 RUN apt-get update && apt-get install -y essential
 
 RUN pip install --upgrade brother_ql
