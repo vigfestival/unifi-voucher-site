@@ -2,6 +2,7 @@ const {ThermalPrinter} = require('node-thermal-printer');
 const time = require('./time');
 const {exec} = require('child_process');
 const fs = require("fs");
+const {CanvasRenderingContext2D} = require("canvas");
 
 const config = {
     printer: {
@@ -42,10 +43,7 @@ async function createVoucherImage(voucher) {
     context.fillStyle = '#ffffff'
     context.fillRect(0, 0, width, height)
 
-    const paddingTop = 60;
-    const lineHeight = 25;
-
-    context.font = 'bold 20pt Arial';
+    const paddingTop = 15;
 
     context.textAlign = 'center'
     context.textBaseline = 'middle';
@@ -53,16 +51,17 @@ async function createVoucherImage(voucher) {
 
     let duration = time(voucher.duration);
     let type = voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use';
-    let usage_quota = voucher.quota === 1 ? `${voucher.qos_usage_quota} MB` : 'unlimited';
+    let usage_quota = voucher.qos_usage_quota !== undefined ? `${voucher.qos_usage_quota} MB` : 'unlimited';
     let upload_limit = voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited';
     let download_limit = voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited';
 
-    const text = `WiFi Voucher Code / / + ${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')} /Duration: ${duration} | Type: ${type} /Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`;
-    const lines = text.split(' /');
-
-    lines.forEach((line, i) => {
-        context.fillText(line, midWidth, paddingTop + lineHeight * i);
-    });
+    context.font = 'bold 30pt Arial';
+    context.fillText('WiFi Voucher Code', midWidth, paddingTop);
+    context.font = 'bold 35pt Arial';
+    context.fillText(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`, midWidth, paddingTop + 35 + 20);
+    context.font = '25pt Arial';
+    context.fillText(`Duration: ${duration} | Type: ${type}`, midWidth, paddingTop + 35 + 20 + 40 + 10);
+    context.fillText(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`, midWidth, paddingTop + 35 + 20 + 40 + 10 + 30);
 
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(`${voucher._id}.png`, buffer);
