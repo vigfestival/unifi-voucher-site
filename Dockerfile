@@ -8,7 +8,7 @@ FROM nikolaik/python-nodejs:latest
 #
 
 # Install packages
-RUN apt-get update && apt-get install -y essential
+RUN apt-get update && apt-get install -y build-essential
 
 RUN pip install --upgrade brother_ql
 
