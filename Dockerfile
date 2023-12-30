@@ -11,6 +11,10 @@ FROM python:alpine
 RUN apk add --no-cache nodejs npm
 RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 
+RUN apk add python-dev py-pip jpeg-dev zlib-dev
+ENV LIBRARY_PATH=/lib:/usr/lib
+
+RUN pip install --upgrade pip
 RUN pip install --upgrade brother_ql
 #
 # Require app
