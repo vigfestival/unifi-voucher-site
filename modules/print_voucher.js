@@ -31,6 +31,12 @@ module.exports.printVoucher = async (voucher) => {
 
 async function createVoucherImage(voucher) {
     const fs = require('fs');
+    const fileName = `${voucher._id}.png`;
+
+    if (fs.existsSync(fileName)) {
+        return;
+    }
+
     const {createCanvas} = require('canvas');
 
     const width = 991;
@@ -66,7 +72,7 @@ async function createVoucherImage(voucher) {
     context.fillText(`Quota: ${voucher.usage_quota} | Download: ${voucher.download_limit} | Upload: ${voucher.upload_limit}`, midWidth, paddingTop + titleHeight + spacingAfterTitle + voucherCodeHeight + spacingAfterVoucherCode + spacingBetweenDescriptionLines);
 
     const buffer = canvas.toBuffer('image/png');
-    fs.writeFileSync(`${voucher._id}.png`, buffer);
+    fs.writeFileSync(fileName, buffer);
 }
 
 async function printUsingBrotherQlLibrary(voucher) {
