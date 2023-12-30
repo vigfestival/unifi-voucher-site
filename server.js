@@ -164,6 +164,11 @@ app.get('/print', async (req, res) => {
     await unifi.printVoucher(req.query.create_time);
     res.status(202).end();
 });
+app.get('/createandprint', async (req, res) => {
+    const voucher = await unifi.createVoucher(voucherTypes[0]);
+    await unifi.printVoucher(voucher.create_time);
+    res.status(202).end();
+});
 /**
  * Setup default 404 message
  */
