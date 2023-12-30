@@ -83,12 +83,12 @@
 <script type="application/javascript">
 
     document.addEventListener("DOMContentLoaded", function () {
-        const printButtons = document.querySelectorAll('button.print-button');
+        const printButtons = document.querySelectorAll('.print-button');
 
         printButtons.forEach(el => el.addEventListener('click', event => {
             let create_time = event.target.getAttribute('data-id');
             if (create_time === undefined || create_time == null) {
-                create_time = event.target.closest('button').getAttribute('data-id');
+                create_time = event.target.closest('input').getAttribute('data-id');
             }
 
             printVoucher(create_time);
