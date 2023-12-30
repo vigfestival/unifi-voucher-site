@@ -43,9 +43,9 @@ async function createVoucherImage(voucher) {
     context.fillRect(0, 0, width, height)
 
     const paddingTop = 60;
-    const lineHeight = 90;
+    const lineHeight = 25;
 
-    context.font = 'bold 50pt Arial';
+    context.font = 'bold 20pt Arial';
 
     context.textAlign = 'center'
     context.textBaseline = 'middle';
@@ -57,7 +57,7 @@ async function createVoucherImage(voucher) {
     let upload_limit = voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited';
     let download_limit = voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited';
 
-    const text = `WiFi Voucher Code// + ${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}/Duration: ${duration} | Type: ${type}/Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`;
+    const text = `WiFi Voucher Code / / + ${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')} /Duration: ${duration} | Type: ${type} /Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`;
     const lines = text.split(' /');
 
     lines.forEach((line, i) => {
