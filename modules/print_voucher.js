@@ -64,24 +64,6 @@ async function createVoucherImage(voucher) {
         context.fillText(line, midWidth, paddingTop + lineHeight * i);
     });
 
-    const fontSizeUsed = drawMultilineText(
-        context,
-        "This is a text with multiple lines that is vertically centered as expected.",
-        {
-            rect: {
-                x: width / 2,
-                y: 0,
-                width: width,
-                height: height
-            },
-            font: 'Arial',
-            verbose: true,
-            lineHeight: 1,
-            minFontSize: 100,
-            maxFontSize: 200
-        }
-    )
-
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(`${voucher.id}.png`, buffer);
 }
