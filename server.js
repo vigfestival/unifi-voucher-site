@@ -3,7 +3,7 @@
  */
 const express = require('express');
 const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
+const {v4: uuidv4} = require('uuid');
 const app = express();
 
 /**
@@ -88,7 +88,7 @@ app.get('/', (req, res) => {
     });
 });
 app.post('/', async (req, res) => {
-    if(typeof req.body === "undefined") {
+    if (typeof req.body === "undefined") {
         res.status(400).send();
         return;
     }
@@ -101,14 +101,14 @@ app.post('/', async (req, res) => {
         password = '0000';
     }
 
-    if(!passwordCheck) {
+    if (!passwordCheck) {
         res.redirect(encodeURI(`/?error=Invalid password!`));
         return;
     }
 
     const typeCheck = (process.env.VOUCHER_TYPES || '480,0,,,;').split(';').includes(req.body['voucher-type']);
 
-    if(!typeCheck) {
+    if (!typeCheck) {
         res.redirect(encodeURI(`/?error=Unknown type!`));
         return;
     }
@@ -116,12 +116,12 @@ app.post('/', async (req, res) => {
     res.redirect(encodeURI(`/voucher?code=${password}&type=${req.body['voucher-type']}`));
 });
 app.get('/voucher', async (req, res) => {
-    if(req.query.code !== (process.env.SECURITY_CODE || "0000")) {
+    if (req.query.code !== (process.env.SECURITY_CODE || "0000")) {
         res.status(403).send();
         return;
     }
 
-    if(!(process.env.VOUCHER_TYPES || '480,0,,,;').split(';').includes(req.query.type)) {
+    if (!(process.env.VOUCHER_TYPES || '480,0,,,;').split(';').includes(req.query.type)) {
         res.status(400).send();
         return;
     }
@@ -139,7 +139,8 @@ app.get('/voucher', async (req, res) => {
         type: req.query.type,
         voucher: voucher,
         sid: uuidv4(),
-        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE'
+        showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE',
+        allowPrinter: process.env.PRINT_VOUCHER && process.env.PRINT_VOUCHER.toUpperCase() === 'TRUE'
     });
 });
 app.get('/vouchers', async (req, res) => {
