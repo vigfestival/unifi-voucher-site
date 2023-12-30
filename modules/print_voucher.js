@@ -59,9 +59,9 @@ async function createVoucherImage(voucher) {
     context.fillText('WiFi Voucher Code', midWidth, paddingTop);
     context.font = 'bold 40pt Arial';
     context.fillText(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`, midWidth, paddingTop + 40 + 25);
-    context.font = '27pt Arial';
+    context.font = '25pt Arial';
     context.fillText(`Duration: ${duration} | Type: ${type}`, midWidth, paddingTop + 40 + 25 + 45 + 15);
-    context.fillText(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`, midWidth, paddingTop + 40 + 25 + 45 + 15 + 35);
+    context.fillText(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`, midWidth, paddingTop + 40 + 25 + 45 + 15 + 45);
 
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(`${voucher._id}.png`, buffer);
