@@ -140,7 +140,7 @@ app.get('/voucher', async (req, res) => {
         voucher: voucher,
         sid: uuidv4(),
         showFooter: !process.env.SHOW_FOOTER || process.env.SHOW_FOOTER.toUpperCase() === 'TRUE',
-        allowPrinter: process.env.PRINT_VOUCHER && process.env.PRINT_VOUCHER.toUpperCase() === 'TRUE'
+        allowPrint: process.env.PRINT_VOUCHER && process.env.PRINT_VOUCHER.toUpperCase() === 'TRUE'
     });
 });
 app.get('/vouchers', async (req, res) => {
