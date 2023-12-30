@@ -22,7 +22,6 @@
     <meta name="theme-color" content="#1875b6">
 
     <link rel="preload" href="<%= banner_image %>" as="image">
-    <link rel="preload" href="/images/unifi-icon.png" as="image">
     <link rel="preload" href="/dist/style.css" as="style">
     <link href="/dist/style.css" rel="stylesheet">
 </head>
@@ -48,7 +47,7 @@
                 </div>
                 <% if(allowPrint) { %>
                     <input type="button" value="Print"
-                           data-id="<%= voucher.create_time %>" class="print-print-button bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
+                           data-id="<%= voucher.create_time %>" class="print-button bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8 cursor-pointer transition-colors dark:text-black dark:bg-gray-200 dark:hover:bg-white">
                 <% } %>
                 <input type="hidden" id="password" name="password" value="<%= code %>"/>
                 <input type="hidden" id="voucher-type" name="voucher-type" value="<%= type %>"/>
