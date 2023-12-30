@@ -1,14 +1,14 @@
 #
 # Define OS
 #
-FROM python:alpine
+FROM alpine
 
 #
 # Basic OS management
 #
 
 # Install packages
-RUN apk add --no-cache nodejs npm
+RUN apk add --no-cache nodejs npm python3 py3-pip
 
 RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 RUN apk add jpeg-dev zlib-dev
@@ -24,8 +24,8 @@ RUN apk add --no-cache \
 
 RUN apk add --update  --repository http://dl-3.alpinelinux.org/alpine/edge/testing libmount ttf-dejavu ttf-droid ttf-freefont ttf-liberation fontconfig
 
-RUN pip install --upgrade pip
-RUN pip install --upgrade brother_ql
+#RUN apk add py3-brother_ql
+RUN pip install --upgrade brother_ql --break-system-packages
 #
 # Require app
 #
