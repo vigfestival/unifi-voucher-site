@@ -1,18 +1,17 @@
 #
 # Define OS
 #
-#FROM nikolaik/python-nodejs:latest
-FROM nikolaik/python-nodejs:python3.8-nodejs18-alpine
+FROM python:alpine
+
 #
 # Basic OS management
 #
 
 # Install packages
-#RUN apt-get update && apt-get install -y build-essential
+RUN apk add --no-cache nodejs npm
 RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 
 RUN pip install --upgrade brother_ql
-
 #
 # Require app
 #
