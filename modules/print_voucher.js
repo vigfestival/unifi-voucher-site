@@ -43,7 +43,7 @@ async function createVoucherImage(voucher) {
     context.fillStyle = '#ffffff'
     context.fillRect(0, 0, width, height)
 
-    const paddingTop = 40;
+    const paddingTop = 50;
 
     context.textAlign = 'center'
     context.textBaseline = 'middle';
