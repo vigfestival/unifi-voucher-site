@@ -21,3 +21,7 @@ services:
       PRINTER_IP: '192.168.178.100'
       PRINTER_TYPE: 'brother'
       PRINTER_CHARACTERSET: 'WPC1252'
+      PRINTER_USE_QL_MODE: 'false'
+      PRINTER_QL_MODEL: 'QL-810W'
+      PRINTER_QL_BACKEND: 'network'
+      PRINTER_QL_LABEL_TYPE: '29x90'

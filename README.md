@@ -66,6 +66,11 @@ services:
       PRINTER_TYPE: 'brother'
       # printer characterset
       PRINTER_CHARACTERSET: 'WPC1252'
+      # use special Brother QL label printer mode using brother-ql (https://pypi.org/project/brother-ql/)
+      PRINTER_USE_QL_MODE: 'false'
+      PRINTER_QL_MODEL: 'QL-810W'
+      PRINTER_QL_BACKEND: 'network'
+      PRINTER_QL_LABEL_TYPE: '29x90'
       # Voucher Types, format: expiration in minutes (required),single-use or multi-use vouchers value - '0' is for multi-use - '1' is for single-use (optional),upload speed limit in kbps (optional),download speed limit in kbps (optional),data transfer limit in MB (optional)
       # To skip a parameter just but nothing in between the comma's
       # After a voucher type add a semicolon, after the semicolon you can start a new voucher type
