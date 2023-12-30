@@ -89,6 +89,7 @@ async function printUsingBrotherQlLibrary(voucher) {
     let printerInterface = config.printer.useTcp ? `tcp://${config.printer.ip}:9100` : config.printer.interface
     await createVoucherImage(voucher);
     let commandLine = `brother_ql --backend ${config.printer.QlBackend} --model ${config.printer.QlModel}--printer ${printerInterface} print --label ${config.printer.QlLabelType} ${voucher.id}.png`;
+    console.log(`Executing the following command line: ${commandLine}`)
     exec(commandLine, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
