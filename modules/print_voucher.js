@@ -49,19 +49,13 @@ async function createVoucherImage(voucher) {
     context.textBaseline = 'middle';
     context.fillStyle = '#000000'
 
-    let duration = time(voucher.duration);
-    let type = voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use';
-    let usage_quota = voucher.qos_usage_quota !== undefined ? `${voucher.qos_usage_quota} MB` : 'unlimited';
-    let upload_limit = voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited';
-    let download_limit = voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited';
-
     context.font = 'bold 35pt Arial';
     context.fillText('WiFi Voucher Code', midWidth, paddingTop);
     context.font = 'bold 40pt Arial';
-    context.fillText(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`, midWidth, paddingTop + 40 + 25);
+    context.fillText(`${voucher.code}`, midWidth, paddingTop + 40 + 25);
     context.font = '25pt Arial';
-    context.fillText(`Duration: ${duration} | Type: ${type}`, midWidth, paddingTop + 40 + 25 + 45 + 15);
-    context.fillText(`Quota: ${usage_quota} | Download: ${download_limit} | Upload: ${upload_limit}`, midWidth, paddingTop + 40 + 25 + 45 + 15 + 45);
+    context.fillText(`Duration: ${voucher.duration} | Type: ${voucher.type}`, midWidth, paddingTop + 40 + 25 + 45 + 15);
+    context.fillText(`Quota: ${voucher.usage_quota} | Download: ${voucher.download_limit} | Upload: ${voucher.upload_limit}`, midWidth, paddingTop + 40 + 25 + 45 + 15 + 45);
 
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(`${voucher._id}.png`, buffer);

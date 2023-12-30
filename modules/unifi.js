@@ -2,8 +2,8 @@
  * Import vendor modules
  */
 const unifi = require('node-unifi');
-const time = require('../modules/time');
 const print_voucher = require('../modules/print_voucher');
+const voucherTransformer = require('../modules/vouchertransformer')
 /**
  * Import own modules
  */
@@ -44,7 +44,7 @@ module.exports.createVoucher = (type) => {
             controller.getSitesStats().then(() => {
                 controller.createVouchers(type.expiration, 1, type.usage === 1 ? 1 : 0, null, typeof type.upload !== "undefined" ? type.upload : null, typeof type.download !== "undefined" ? type.download : null, typeof type.megabytes !== "undefined" ? type.megabytes : null).then((voucher_data) => {
                     controller.getVouchers(voucher_data[0].create_time).then((voucher_data_complete) => {
-                        const voucher = `${[voucher_data_complete[0].code.slice(0, 5), '-', voucher_data_complete[0].code.slice(5)].join('')}`;
+                        const voucher = voucherTransformer.fromDto(voucher_data_complete[0]);
                         resolve(voucher);
                     }).catch((e) => {
                         console.log('Error while getting voucher!');
@@ -96,16 +96,9 @@ module.exports.getExistingVouchers = () => {
                 controller.getVouchers().then((voucher_data_complete) => {
                     let vouchers = [];
                     voucher_data_complete.forEach(function (voucher) {
-                        vouchers.push({
-                            id: voucher._id,
-                            create_time: voucher.create_time,
-                            code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`,
-                            duration: time(voucher.duration),
-                            type: voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use',
-                            usage_quota: voucher.qos_usage_quota !== undefined ? `${voucher.qos_usage_quota} MB` : 'unlimited',
-                            upload_limit: voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited',
-                            download_limit: voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited'
-                        });
+                        vouchers.push(
+                            voucherTransformer.fromDto(voucher)
+                        );
                     });
                     resolve(vouchers);
                 }).catch((e) => {
@@ -199,7 +192,7 @@ module.exports.printVoucher = (create_time) => {
         controller.login(config.unifi.username, config.unifi.password).then(() => {
             controller.getSitesStats().then(() => {
                 controller.getVouchers(create_time).then(async (voucher) => {
-                    await print_voucher.printVoucher(voucher[0]);
+                    await print_voucher.printVoucher(voucher.fromDto(voucher[0]));
                     console.log(`Printed voucher ${voucher[0]._id} ...`);
                     resolve();
                 }).catch((e) => {
