@@ -1,6 +1,6 @@
 const time = require("./time");
 module.exports.fromDto = (voucherDto) => {
-    let voucher = {
+    return {
         id: voucherDto._id,
         create_time: voucherDto.create_time,
         code: `${[voucherDto.code.slice(0, 5), '-', voucherDto.code.slice(5)].join('')}`,
@@ -10,6 +10,4 @@ module.exports.fromDto = (voucherDto) => {
         upload_limit: voucherDto.qos_rate_max_up !== undefined ? `${voucherDto.qos_rate_max_up} KBit/s` : 'unlimited',
         download_limit: voucherDto.qos_rate_max_down !== undefined ? `${voucherDto.qos_rate_max_down} KBit/s` : 'unlimited'
     };
-
-    return voucher;
 }
