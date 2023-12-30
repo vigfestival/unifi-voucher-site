@@ -9,10 +9,20 @@ FROM python:alpine
 
 # Install packages
 RUN apk add --no-cache nodejs npm
-RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 
+RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
 RUN apk add jpeg-dev zlib-dev
 ENV LIBRARY_PATH=/lib:/usr/lib
+
+RUN apk add --no-cache \
+  build-base \
+  g++ \
+  cairo-dev \
+  jpeg-dev \
+  pango-dev \
+  giflib-dev
+
+RUN apk add --update  --repository http://dl-3.alpinelinux.org/alpine/edge/testing libmount ttf-dejavu ttf-droid ttf-freefont ttf-liberation fontconfig
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade brother_ql
