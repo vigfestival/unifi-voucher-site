@@ -44,18 +44,26 @@ async function createVoucherImage(voucher) {
     context.fillRect(0, 0, width, height)
 
     const paddingTop = 50;
+    const spacingAfterTitle = 25;
+    const titleFontSize = 35;
+    const titleHeight = titleFontSize + 5;
+    const voucherCodeFontSize = 40;
+    const voucherCodeHeight = voucherCodeFontSize + 5;
+    const spacingAfterVoucherCode = 15;
+    const descriptionFontSize = 25;
+    const spacingBetweenDescriptionLines = descriptionFontSize + 20;
 
     context.textAlign = 'center'
     context.textBaseline = 'middle';
     context.fillStyle = '#000000'
 
-    context.font = 'bold 35pt Arial';
+    context.font = `bold ${titleFontSize}pt Arial`;
     context.fillText('WiFi Voucher Code', midWidth, paddingTop);
-    context.font = 'bold 40pt Arial';
-    context.fillText(`${voucher.code}`, midWidth, paddingTop + 40 + 25);
-    context.font = '25pt Arial';
-    context.fillText(`Duration: ${voucher.duration} | Usage for: ${voucher.type}`, midWidth, paddingTop + 40 + 25 + 45 + 15);
-    context.fillText(`Quota: ${voucher.usage_quota} | Download: ${voucher.download_limit} | Upload: ${voucher.upload_limit}`, midWidth, paddingTop + 40 + 25 + 45 + 15 + 45);
+    context.font = `bold ${voucherCodeFontSize}pt Arial`;
+    context.fillText(`${voucher.code}`, midWidth, paddingTop + titleHeight + spacingAfterTitle);
+    context.font = `${descriptionFontSize}pt Arial`;
+    context.fillText(`Duration: ${voucher.duration} | Usage for: ${voucher.type}`, midWidth, paddingTop + titleHeight + spacingAfterTitle + voucherCodeHeight + spacingAfterVoucherCode);
+    context.fillText(`Quota: ${voucher.usage_quota} | Download: ${voucher.download_limit} | Upload: ${voucher.upload_limit}`, midWidth, paddingTop + titleHeight + spacingAfterTitle + voucherCodeHeight + spacingAfterVoucherCode + spacingBetweenDescriptionLines);
 
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(`${voucher._id}.png`, buffer);
