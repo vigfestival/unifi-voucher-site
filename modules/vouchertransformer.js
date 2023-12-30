@@ -1,14 +1,14 @@
 const time = require("./time");
 module.exports.fromDto = (voucherDto) => {
     let voucher = {
-        id: voucher._id,
-        create_time: voucher.create_time,
-        code: `${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`,
-        duration: time(voucher.duration),
-        type: voucher.status === 'VALID_MULTI' ? 'multi-use' : 'single-use',
-        usage_quota: voucher.qos_usage_quota !== undefined ? `${voucher.qos_usage_quota} MB` : 'unlimited',
-        upload_limit: voucher.qos_rate_max_up !== undefined ? `${voucher.qos_rate_max_up} KBit/s` : 'unlimited',
-        download_limit: voucher.qos_rate_max_down !== undefined ? `${voucher.qos_rate_max_down} KBit/s` : 'unlimited'
+        id: voucherDto._id,
+        create_time: voucherDto.create_time,
+        code: `${[voucherDto.code.slice(0, 5), '-', voucherDto.code.slice(5)].join('')}`,
+        duration: time(voucherDto.duration),
+        type: voucherDto.status === 'VALID_MULTI' ? 'multi-use' : 'single-use',
+        usage_quota: voucherDto.qos_usage_quota !== undefined ? `${voucherDto.qos_usage_quota} MB` : 'unlimited',
+        upload_limit: voucherDto.qos_rate_max_up !== undefined ? `${voucherDto.qos_rate_max_up} KBit/s` : 'unlimited',
+        download_limit: voucherDto.qos_rate_max_down !== undefined ? `${voucherDto.qos_rate_max_down} KBit/s` : 'unlimited'
     };
 
     return voucher;
