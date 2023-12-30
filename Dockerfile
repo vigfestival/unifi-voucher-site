@@ -1,7 +1,7 @@
 #
 # Define OS
 #
-FROM nikolaik/python3.12-nodejs20-alpine
+FROM nikolaik/python-nodejs:latest
 
 #
 # Basic OS management
@@ -9,6 +9,7 @@ FROM nikolaik/python3.12-nodejs20-alpine
 
 # Install packages
 RUN apk update && apk add --virtual build-dependencies build-base gcc wget git
+RUN apt-get update && apt-get install -y essential
 
 RUN pip install --upgrade brother_ql
 
