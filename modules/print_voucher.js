@@ -1,8 +1,6 @@
 const {ThermalPrinter} = require('node-thermal-printer');
 const time = require('./time');
 const {exec} = require('child_process');
-const fs = require("fs");
-const {CanvasRenderingContext2D} = require("canvas");
 
 const config = {
     printer: {
@@ -12,9 +10,10 @@ const config = {
         interface: process.env.PRINTER_INTERFACE || null,
         characterSet: process.env.PRINTER_CHARACTERSET || 'WPC1252',
         useQlMode: process.env.PRINTER_USE_QL_MODE ? process.env.PRINTER_USE_QL_MODE.toLowerCase() === 'true' : 'false',
-        QlModel: process.env.PRINTER_QL_MODEL,
-        QlBackend: process.env.PRINTER_QL_BACKEND || 'network',
-        QlLabelType: process.env.PRINTER_QL_LABEL_TYPE || '29x90'
+        qlModel: process.env.PRINTER_QL_MODEL,
+        qlBackend: process.env.PRINTER_QL_BACKEND || 'network',
+        qlLabelType: process.env.PRINTER_QL_LABEL_TYPE || '29x90',
+        voucherTitle: process.env.PRINT_VOUCHER_TITLE || 'WiFi Voucher Code'
     }
 };
 
@@ -64,7 +63,7 @@ async function createVoucherImage(voucher) {
     context.fillStyle = '#000000'
 
     context.font = `bold ${titleFontSize}pt Arial`;
-    context.fillText('WiFi Voucher Code', midWidth, paddingTop);
+    context.fillText(config.printer.voucherTitle, midWidth, paddingTop);
     context.font = `bold ${voucherCodeFontSize}pt Arial`;
     context.fillText(`${voucher.code}`, midWidth, paddingTop + titleHeight + spacingAfterTitle);
     context.font = `${descriptionFontSize}pt Arial`;
@@ -78,7 +77,7 @@ async function createVoucherImage(voucher) {
 async function printUsingBrotherQlLibrary(voucher) {
     let printerInterface = config.printer.useTcp ? `tcp://${config.printer.ip}:9100` : config.printer.interface
     await createVoucherImage(voucher);
-    let commandLine = `brother_ql --backend ${config.printer.QlBackend} --model ${config.printer.QlModel} --printer ${printerInterface} print --label ${config.printer.QlLabelType} ${voucher._id}.png`;
+    let commandLine = `brother_ql --backend ${config.printer.qlBackend} --model ${config.printer.qlModel} --printer ${printerInterface} print --label ${config.printer.qlLabelType} ${voucher._id}.png`;
     console.log(`Executing the following command line: ${commandLine}`)
     exec(commandLine, (error, stdout, stderr) => {
         if (error) {
@@ -111,7 +110,7 @@ async function printUsingThermalPrinterLibrary(voucher) {
 
         printer.alignCenter();
         printer.newLine();
-        printer.println("WiFi Voucher Code");// Append text with new line
+        printer.println(config.printer.voucherTitle);// Append text with new line
         printer.newLine();
         printer.println(`${[voucher.code.slice(0, 5), '-', voucher.code.slice(5)].join('')}`);
         printer.println(`Duration: ${duration} | Type: ${type}`);

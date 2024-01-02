@@ -16,6 +16,7 @@ services:
       SHOW_EXISTING_VOUCHERS: 'true'
       VOUCHER_TYPES: '480,0,,,;'
       PRINT_VOUCHER: 'false'
+      PRINT_VOUCHER_TITLE: 'My Guest WiFi Voucher code'
       PRINTER_USE_TCP: 'true'
       PRINTER_INTERFACE: ''
       PRINTER_IP: '192.168.178.100'
@@ -25,3 +26,4 @@ services:
       PRINTER_QL_MODEL: 'QL-810W'
       PRINTER_QL_BACKEND: 'network'
       PRINTER_QL_LABEL_TYPE: '29x90'
+

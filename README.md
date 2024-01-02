@@ -56,6 +56,8 @@ services:
       SHOW_EXISTING_VOUCHERS: 'true'
       # support label printers and show print button (see printer settings)
       PRINT_VOUCHER: 'false'
+      # provide your own title vor the voucher (i.e. the first line) - will default to 'WiFi Voucher Code'
+      PRINT_VOUCHER_TITLE: 'Guest WiFi Voucher Code'
       # use network access
       PRINTER_USE_TCP: 'true'
       # printer interface if NOT using a network printer (i.e. PRINTER_USE_TCP is set to 'false') - see https://github.com/Klemen1337/node-thermal-printer/blob/master/README.md#interface-options
